@@ -13,6 +13,6 @@ Feature extraction of porous media; permeability prediction; machine learning; L
 ## Data preparation
 You should pre-express the 3D image of the porous medium as a folder composed of multiple slices (csv file format or image format). The name of each csv file is the slice number, and the folder name is the sample number.
 ## Feature extraction
-
+![image1](/feature extraction.jpg)
 From feature_extraction directory, run:`python feature_extraction.py`  
 Then you could achieve **porosity_2d.csv**, **pecific_perimeter.csv**, **euler_number.csv** and **euler_number_std.csv** of the test samples.
