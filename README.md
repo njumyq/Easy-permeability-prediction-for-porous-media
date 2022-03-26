@@ -55,8 +55,7 @@ k = 1
 batch_size = 32
 epochs = 500 
 ```
-and run `python LSTM.py`.  
-To get the relevant visualization, run `python Visualization.py`
+and run `python LSTM.py`. To get the relevant visualization, run `python Visualization.py`.
 
 <div align=center><img width="900" src="https://github.com/499683288/Easy-permeability-prediction-for-porous-media/blob/main/LSTM%20model.jpg"/></div>
 
