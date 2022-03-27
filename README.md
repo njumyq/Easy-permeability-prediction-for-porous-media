@@ -16,18 +16,29 @@ This repository aims to provide a convenient method to predict the permeability 
 
 You should pre-express the 3D image of the porous medium as a folder composed of multiple slices (csv file format or image format). The name of each csv file is the slice number, and the folder name is the sample number.
 ## Feature extraction
-<div align=center><img width="900" src="https://github.com/499683288/Easy-permeability-prediction-for-porous-media/blob/main/feature%20extraction.jpg"/></div>
+<div align=center><img width="600" src="https://github.com/499683288/Easy-permeability-prediction-for-porous-media/blob/main/feature%20extraction.jpg"/></div>
 
 
 From **feature_extraction** directory, run`python feature_extraction.py`.
 Then you could achieve **porosity_2d.csv**, **pecific_perimeter.csv**, **euler_number.csv** and **euler_number_std.csv** of the test samples.
 
 ## Machine learning models
-From **machine learning(case1)** directory,open and run **ml for porosity sequences.ipynb**, **ml for specific perimeter sequences.ipynb** and **ml for euler number sequences.ipynb** respectively by Juputer notebook, then you can get the permeability perdiction results with four machine learning models. **Visualization.ipynb** provides the visualization of predicted results. 
-
+From **machine learning(case1)** directory,open and run **ml for porosity sequences.ipynb**, **ml for specific perimeter sequences.ipynb** and **ml for euler number sequences.ipynb** respectively by Juputer notebook, then you can get the permeability perdiction results with four machine learning models. **Visualization.ipynb** provides the visualization of predicted results.  
 The parameter search of the models (without linear regression and LSTM) can be referred to as follows：
 ```
+import pandas as pd
+import numpy as np
+import os
+from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
+
+path1, path2 = os.getcwd()+'./euler_number.csv', os.getcwd()+'./permeability.csv'
+f1, f2 = open(path1,encoding='utf-8'), open(path2,encoding='utf-8')
+X, y = pd.read_csv(f1,low_memory=False,header=None), pd.read_csv(f2,low_memory=False,header=None)
+X, y = np.array(X), np.array(y)
+y=np.array(y).squeeze(-1)
+train_x, test_x, train_y, test_y = train_test_split(X, y, test_size=0.30, random_state=0)
+
 param_grid1={"n_neighbors":range(1,20), "weights":["uniform","distance"],"algorithm":["kd_tree","auto"]}
 grid_search1=GridSearchCV(KNeighborsRegressor(),param_grid1,cv=5)
 grid_search1.fit(train_x,train_y)
@@ -57,7 +68,7 @@ epochs = 500
 ```
 and run `python LSTM.py`. To get the relevant visualization, run `python Visualization.py`.
 
-<div align=center><img width="900" src="https://github.com/499683288/Easy-permeability-prediction-for-porous-media/blob/main/LSTM%20model.jpg"/></div>
+<div align=center><img width="600" src="https://github.com/499683288/Easy-permeability-prediction-for-porous-media/blob/main/LSTM%20model.jpg"/></div>
 
 ```
 class RNN(nn.Module):
@@ -88,4 +99,4 @@ class RNN(nn.Module):
         return x
 ``` 
 
-You can adjust the network structure and hyperparameters according to the output results. It should also be noted that the loss gradient of the LSTM model is unstable, and the loss function curve and the score curve are difficult to converge. You can conduct multiple model tests with the same parameters at the same time to obtain the best prediction results.
+You can adjust the network structure and hyperparameters according to your hardware equipment. It should also be noted that the loss gradient of the LSTM model is unstable, and the loss function curve and the score curve are difficult to converge. You can conduct multiple model tests with the same parameters at the same time to obtain the best prediction results.
